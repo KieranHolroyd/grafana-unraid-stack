@@ -1,36 +1,41 @@
 # Grafana-Unraid-Stack
+
 Meet Gus! He has everything you need to start monitoring Unraid (Grafana - Influxdb - Telegraf - Loki - Promtail). 1 docker instead of 5+!
 
 A GUS demo dashboard (preview below) and falconexe's Ultimate UNRAID Dashboard v1.3 (UUD) are included out of the box.
 ![Preview](https://raw.githubusercontent.com/testdasi/grafana-unraid-stack-base/master/grafana-unraid-stack-screen.png)
 
 ## High-level instructions
-* Decide whether you want hddtemp or S.M.A.R.T (smartmontools) and set USE_HDDTEMP variable accordingly.
-  * Hint: both GUS and UUD use S.M.A.R.T.
-* Install docker with host network
-* Go to ip:3006 to access grafana, login with admin/admin and make changes as required to fit your system.
+
+- Decide whether you want hddtemp or S.M.A.R.T (smartmontools) and set USE_HDDTEMP variable accordingly.
+  - Hint: both GUS and UUD use S.M.A.R.T.
+- Install docker with host network
+- Go to ip:3006 to access grafana, login with admin/admin and make changes as required to fit your system.
 
 ## Key features
+
 1. Grafana server. Include both a GUS demo dashboard and falconexe's Ultimate UNRAID Dashboard v1.3.
 1. Influxdb
 1. Telegraf with hddtemp or smartmontools (and ipmitool pre-installed)
 1. Loki + Promtail (so you can now watch your Unraid syslog in the dashboard)
 
 ## Bits and bobs
-* Use port 3006 because grafana default port 3000 is rather popular among other apps
-  * I highly recommend you don't change the port variables unless you know how to deal with various config files. Things are rather tightly integrated.
-* Need to run privileged=true
-  * Should be run on "Host" network for max exposure to the server network metrics. You can use bridge if you don't care too much about host network reporting (but remember to map port 3006)
-  * The read-only paths are required for Telegraf to report on host devices.
-* Data is separated from config so, for example, you can have the data in RAM so it gets reset after reboot.
-* The included dashboards are intentionally not editable (grafana will tell you it's not possible and provide json). There are 2 ways to save your customization:
-  * Save the json file and overwrite the GUS.json / UUD.json at /config/grafana/data/dashboards/.
-  * Alternatively, you can copy the json text and import (+ icon -> Import).
-* All s-tag builds after 10 March 2022 is based on Ubuntu LTS (instead of Debian Buster).
-* For more info about Ultinate UNRAID dashboard, please refer to [the official thread](https://forums.unraid.net/topic/96895-ultimate-unraid-dashboard-uud/).
-  * Later versions of UUD requires more apps than I yet have time to code for unfortunately.
+
+- Use port 3006 because grafana default port 3000 is rather popular among other apps
+  - I highly recommend you don't change the port variables unless you know how to deal with various config files. Things are rather tightly integrated.
+- Need to run privileged=true
+  - Should be run on "Host" network for max exposure to the server network metrics. You can use bridge if you don't care too much about host network reporting (but remember to map port 3006)
+  - The read-only paths are required for Telegraf to report on host devices.
+- Data is separated from config so, for example, you can have the data in RAM so it gets reset after reboot.
+- The included dashboards are intentionally not editable (grafana will tell you it's not possible and provide json). There are 2 ways to save your customization:
+  - Save the json file and overwrite the GUS.json / UUD.json at /config/grafana/data/dashboards/.
+  - Alternatively, you can copy the json text and import (+ icon -> Import).
+- All s-tag builds after 10 March 2022 is based on Ubuntu LTS (instead of Debian Buster).
+- For more info about Ultinate UNRAID dashboard, please refer to [the official thread](https://forums.unraid.net/topic/96895-ultimate-unraid-dashboard-uud/).
+  - Later versions of UUD requires more apps than I yet have time to code for unfortunately.
 
 ## Usage
+
     docker run -d \
         --name=<container name> \
         --net='host' \
@@ -54,9 +59,10 @@ A GUS demo dashboard (preview below) and falconexe's Ultimate UNRAID Dashboard v
         -e HOST_SYS=/rootfs/sys \
         -e HOST_ETC=/rootfs/etc \
         -e HOST_MOUNT_PREFIX=/rootfs \
-        testdasi/grafana-unraid-stack:<tag>
+        kieranholroyd/grafana-unraid-stack:<tag>
 
 ## Unraid example
+
     docker run -d \
         --name='Grafana-Unraid-Stack' \
         --net='host' \
@@ -85,7 +91,8 @@ A GUS demo dashboard (preview below) and falconexe's Ultimate UNRAID Dashboard v
         'testdasi/grafana-unraid-stack:stable-amd64'
 
 ## Notes
-* I code for fun and my personal uses; hence, these niche functionalties that nobody asks for. ;)
-* If you like my work, [a donation to my burger fund](https://paypal.me/mersenne) is very much appreciated.
 
-[![Donate](https://raw.githubusercontent.com/testdasi/testdasi-unraid-repo/master/donate-button-small.png)](https://paypal.me/mersenne). 
+- I code for fun and my personal uses; hence, these niche functionalties that nobody asks for. ;)
+- If you like my work, [a donation to my burger fund](https://paypal.me/mersenne) is very much appreciated.
+
+[![Donate](https://raw.githubusercontent.com/testdasi/testdasi-unraid-repo/master/donate-button-small.png)](https://paypal.me/mersenne).
